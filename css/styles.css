@@ -50,6 +50,42 @@ body {
   margin: 4px 0;
 }
 
+#gallery {
+  margin-top: 40px;
+}
+
+#gallery h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #222;
+}
+
+.gallery-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.gallery-item {
+  flex: 1 1 200px;
+  /* ancho mínimo 200px, se ajusta */
+  overflow: hidden;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.05);
+  /* efecto zoom al pasar el mouse */
+}
+
 /* Mobile view */
 @media (max-width: 768px) {
   .hamburger {
@@ -71,4 +107,3 @@ body {
     display: flex;
   }
 }
-
