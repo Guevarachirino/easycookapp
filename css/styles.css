@@ -70,7 +70,7 @@ body {
 .gallery-item {
   flex: 1 1 200px;
   max-width: 250px;
-  /* ancho mínimo 200px, se ajusta */
+
   overflow: hidden;
 }
 
@@ -84,7 +84,7 @@ body {
 
 .gallery-item img:hover {
   transform: scale(1.05);
-  /* efecto zoom al pasar el mouse */
+
 }
 
 /* Mobile view */
@@ -109,10 +109,10 @@ body {
   }
 
    .gallery-container {
-    gap: 10px; /* espacio más pequeño en pantallas chicas */
+    gap: 10px; 
   }
 
   .gallery-item {
-    max-width: 100%; /* ocupan todo el ancho disponible en mobile */
+    max-width: 100%; 
   }
 }
