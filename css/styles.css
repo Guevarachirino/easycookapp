@@ -69,6 +69,7 @@ body {
 
 .gallery-item {
   flex: 1 1 200px;
+  max-width: 250px;
   /* ancho mínimo 200px, se ajusta */
   overflow: hidden;
 }
@@ -105,5 +106,13 @@ body {
 
   .menu.active {
     display: flex;
+  }
+
+   .gallery-container {
+    gap: 10px; /* espacio más pequeño en pantallas chicas */
+  }
+
+  .gallery-item {
+    max-width: 100%; /* ocupan todo el ancho disponible en mobile */
   }
 }
