@@ -59,8 +59,7 @@ async function fetchNutrition(ingredient) {
 
 async function displayRecipe(meal) {
   try {
-
-   
+    // Obtener ingredientes y medidas
     let ingredients = [];
     for (let i = 1; i <= 20; i++) {
       const ingredient = meal[`strIngredient${i}`];
@@ -71,7 +70,7 @@ async function displayRecipe(meal) {
       }
     }
 
-
+    // Obtener calorías de cada ingrediente
     const nutritionPromises = ingredients.map(item => fetchNutrition(item.name));
     const nutritionResults = await Promise.all(nutritionPromises);
 
@@ -93,23 +92,19 @@ async function displayRecipe(meal) {
 
     ingredientsList += "</ul>";
 
-
+    // Insertar HTML en el contenedor
     recipeContainer.innerHTML = `
       <div class="recipe-card">
         <h2>${meal.strMeal}</h2>
 
-        <button class="fav-btn" onclick="addToFavorites('${meal.idMeal}', '${meal.strMeal}', '${meal.strMealThumb}')">
-          ❤️ Add to Favorites
-        </button>
+        <button class="fav-btn" id="favBtn">❤️ Add to Favorites</button>
 
         <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
 
         <h3>Ingredients</h3>
         ${ingredientsList}
 
-        <button class="fav-btn" onclick="addToShopping(${JSON.stringify(ingredients)})">
-          🛒 Add Ingredients to Shopping List
-        </button>
+        <button class="fav-btn" id="shoppingBtn">🛒 Add Ingredients to Shopping List</button>
 
         <div class="nutrition-box">
           <h3>🍎 Nutritional Summary</h3>
@@ -121,11 +116,21 @@ async function displayRecipe(meal) {
       </div>
     `;
 
+    // Agregar listeners después de crear el HTML
+    document.getElementById("favBtn").addEventListener("click", () => {
+      addToFavorites(meal.idMeal, meal.strMeal, meal.strMealThumb);
+    });
+
+    document.getElementById("shoppingBtn").addEventListener("click", () => {
+      addToShopping(ingredients);
+    });
+
   } catch (error) {
     console.error("Display error:", error);
     recipeContainer.innerHTML = "<p>Error loading nutrition data</p>";
   }
 }
+
 
 
 function addToFavorites(id, name, image) {
