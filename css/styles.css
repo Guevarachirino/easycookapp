@@ -73,19 +73,42 @@ main h1 {
   color: #333;
 }
 
+.intro-section {
+  max-width: 800px;
+  margin: 20px auto 40px auto;
+  padding: 30px 25px;
+  background: rgba(255, 255, 255, 0.9);
+  /* fondo blanco semi-transparente */
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.intro-text {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
 #searchInput {
-  padding: 12px 15px;
+  padding: 12px 20px;
   width: 250px;
   border-radius: 25px;
-  border: none;
-  outline: none;
+  border: 1px solid #ccc;
   font-size: 16px;
+  outline: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 #searchBtn {
   padding: 12px 20px;
-  margin-left: 10px;
   border-radius: 25px;
   border: none;
   background: #ff6b6b;
@@ -99,6 +122,7 @@ main h1 {
   background: #ff4757;
   transform: scale(1.05);
 }
+
 
 /* ================== RECIPE CARD ================== */
 #recipeContainer {
