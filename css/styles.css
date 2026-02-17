@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #4f8a3d , #e6fac4);
+  background: linear-gradient(135deg, #4f8a3d, #e6fac4);
   min-height: 100vh;
   padding: 20px;
 }
@@ -112,7 +112,7 @@ main h1 {
   border-radius: 25px;
   border: none;
   background: #ff6b6b;
-  color: white;
+  color: black;
   font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
