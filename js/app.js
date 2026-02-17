@@ -28,6 +28,30 @@ function fetchRecipe(name) {
       console.error(error);
     });
 }
+async function fetchNutrition(ingredient) {
+  try {
+    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${ingredient}&search_simple=1&action=process&json=1&page_size=1`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.products && data.products.length > 0) {
+      const nutriments = data.products[0].nutriments;
+
+      return {
+        calories: nutriments["energy-kcal_100g"] || "N/A",
+        proteins: nutriments.proteins_100g || "N/A",
+        fat: nutriments.fat_100g || "N/A",
+        carbs: nutriments.carbohydrates_100g || "N/A"
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Nutrition error:", error);
+    return null;
+  }
+}
 
 async function displayRecipe(meal) {
   let ingredients = [];
