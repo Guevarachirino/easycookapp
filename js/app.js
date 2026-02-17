@@ -94,6 +94,9 @@ async function displayRecipe(meal) {
     recipeContainer.innerHTML = `
   <div class="recipe-card">
     <h2>${meal.strMeal}</h2>
+    <button class="fav-btn" onclick="addToFavorites('${meal.idMeal}', '${meal.strMeal}', '${meal.strMealThumb}')">
+   Add to Favorites
+</button>
     <img src="${meal.strMealThumb}">
     
     <h3>Ingredients</h3>
@@ -116,6 +119,51 @@ async function displayRecipe(meal) {
   }
 }
 
+function addToFavorites(id, name, image) {
+  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  // evitar duplicados
+  if (favorites.some(fav => fav.id === id)) {
+    alert("Already in favorites");
+    return;
+  }
+
+  favorites.push({ id, name, image });
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+
+  alert("Added to favorites! ");
+
+  displayFavorites();
+}
+
+function displayFavorites() {
+  const favoritesContainer = document.getElementById("favoritesContainer");
+  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  if (favorites.length === 0) {
+    favoritesContainer.innerHTML = "<p>No favorites yet ❤️</p>";
+    return;
+  }
+
+  favoritesContainer.innerHTML = favorites.map(fav => `
+    <div class="favorite-card">
+      <img src="${fav.image}" width="100">
+      <p>${fav.name}</p>
+      <button onclick="removeFavorite('${fav.id}')">❌</button>
+    </div>
+  `).join("");
+}
+
+function removeFavorite(id) {
+  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  favorites = favorites.filter(fav => fav.id !== id);
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+
+  displayFavorites();
+}
 
 
 
