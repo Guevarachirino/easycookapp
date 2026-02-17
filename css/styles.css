@@ -87,6 +87,19 @@ body {
 
 }
 
+.nutrition-box {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fff3cd;
+  border-left: 5px solid #ffa502;
+  border-radius: 8px;
+}
+
+.nutrition-box h3 {
+  margin-top: 0;
+}
+
+
 /* Mobile view */
 @media (max-width: 768px) {
   .hamburger {
@@ -108,11 +121,11 @@ body {
     display: flex;
   }
 
-   .gallery-container {
-    gap: 10px; 
+  .gallery-container {
+    gap: 10px;
   }
 
   .gallery-item {
-    max-width: 100%; 
+    max-width: 100%;
   }
 }
