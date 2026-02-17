@@ -92,21 +92,23 @@ async function displayRecipe(meal) {
     ingredientsList += "</ul>";
 
     recipeContainer.innerHTML = `
-      <h2>${meal.strMeal}</h2>
-      <img src="${meal.strMealThumb}" width="300">
+  <div class="recipe-card">
+    <h2>${meal.strMeal}</h2>
+    <img src="${meal.strMealThumb}">
+    
+    <h3>Ingredients</h3>
+    ${ingredientsList}
 
-      <h3>Ingredients</h3>
-      ${ingredientsList}
+    <div class="nutrition-box">
+      <h3>🍎 Nutritional Summary</h3>
+      <p><strong>Total Calories:</strong> ${totalCalories.toFixed(2)} kcal</p>
+    </div>
 
-      <div class="nutrition-box">
-        <h3>🍎 Nutritional Summary</h3>
-        <p><strong>Total Calories (approx):</strong> ${totalCalories.toFixed(2)} kcal</p>
-        <p><small>*Values based on 100g per ingredient*</small></p>
-      </div>
+    <h3>Instructions</h3>
+    <p>${meal.strInstructions}</p>
+  </div>
+`;
 
-      <h3>Instructions</h3>
-      <p>${meal.strInstructions}</p>
-    `;
 
   } catch (error) {
     console.error("Display error:", error);

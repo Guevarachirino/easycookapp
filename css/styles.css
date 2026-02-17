@@ -84,42 +84,41 @@ main h1 {
 }
 
 /* Recipe Card */
+
+
 #recipeContainer {
-  margin-top: 40px;
   display: flex;
   justify-content: center;
+  margin-top: 40px;
 }
 
-#recipeContainer>div,
-#recipeContainer {
-  max-width: 700px;
-}
-
-#recipeContainer img {
+.recipe-card {
+  background: white;
   width: 100%;
+  max-width: 700px;
+  padding: 25px;
   border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-card img {
+  width: 100%;
+  border-radius: 12px;
   margin: 15px 0;
 }
 
-#recipeContainer h2 {
-  margin-bottom: 10px;
-}
-
-#recipeContainer ul {
+.recipe-card ul {
   list-style: none;
   padding: 0;
 }
 
-#recipeContainer li {
-  background: rgba(255, 255, 255, 0.7);
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 8px;
+.recipe-card li {
+  background: #f4f4f4;
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
 }
 
-#recipeContainer p {
-  line-height: 1.6;
-}
 
 /* Nutrition Box */
 .nutrition-box {
