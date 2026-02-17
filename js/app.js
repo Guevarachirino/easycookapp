@@ -14,6 +14,8 @@ searchBtn.addEventListener("click", () => {
 });
 
 function fetchRecipe(name) {
+  recipeContainer.innerHTML = "<p>Loading recipe...</p>";
+
   fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`)
     .then(response => response.json())
     .then(data => {
@@ -35,83 +37,83 @@ async function fetchNutrition(ingredient) {
     const response = await fetch(url);
     const data = await response.json();
 
-    if (data.products && data.products.length > 0) {
-      const nutriments = data.products[0].nutriments;
-
-      return {
-        calories: nutriments["energy-kcal_100g"] || "N/A",
-        proteins: nutriments.proteins_100g || "N/A",
-        fat: nutriments.fat_100g || "N/A",
-        carbs: nutriments.carbohydrates_100g || "N/A"
-      };
-    } else {
-      return null;
+    if (!data.products || data.products.length === 0) {
+      return { calories: 0 };
     }
+
+    const nutriments = data.products[0].nutriments || {};
+
+    return {
+      calories: nutriments["energy-kcal_100g"] || 0
+    };
+
   } catch (error) {
     console.error("Nutrition error:", error);
-    return null;
+    return { calories: 0 };
   }
 }
 
 async function displayRecipe(meal) {
-  let ingredients = [];
+  try {
 
-  for (let i = 1; i <= 20; i++) {
-    const ingredient = meal[`strIngredient${i}`];
-    const measure = meal[`strMeasure${i}`];
+    let ingredients = [];
 
-    if (ingredient && ingredient.trim() !== "") {
-      ingredients.push({ name: ingredient, measure });
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = meal[`strIngredient${i}`];
+      const measure = meal[`strMeasure${i}`];
+
+      if (ingredient && ingredient.trim() !== "") {
+        ingredients.push({ name: ingredient, measure });
+      }
     }
-  }
 
-  // 🚀 Todas las peticiones al mismo tiempo
-  const nutritionPromises = ingredients.map(item =>
-    fetchNutrition(item.name)
-  );
+    const nutritionPromises = ingredients.map(item =>
+      fetchNutrition(item.name)
+    );
 
-  const nutritionResults = await Promise.all(nutritionPromises);
+    const nutritionResults = await Promise.all(nutritionPromises);
 
-  let ingredientsList = "<ul>";
+    let ingredientsList = "<ul>";
+    let totalCalories = 0;
 
-  let totalCalories = 0;
+    ingredients.forEach((item, index) => {
+      const calories = parseFloat(nutritionResults[index].calories) || 0;
+      totalCalories += calories;
 
-  ingredients.forEach((item, index) => {
-    const nutrition = nutritionResults[index];
+      ingredientsList += `
+        <li>
+          ${item.measure} ${item.name}
+          <br>
+          <small>${calories} kcal</small>
+        </li>
+      `;
+    });
 
-    const calories = parseFloat(nutrition?.calories) || 0;
-    totalCalories += calories;
+    ingredientsList += "</ul>";
 
-    ingredientsList += `
-      <li>
-        ${item.measure} ${item.name}
-        <br>
-        <small>
-          ${calories} kcal
-        </small>
-      </li>
+    recipeContainer.innerHTML = `
+      <h2>${meal.strMeal}</h2>
+      <img src="${meal.strMealThumb}" width="300">
+
+      <h3>Ingredients</h3>
+      ${ingredientsList}
+
+      <div class="nutrition-box">
+        <h3>🍎 Nutritional Summary</h3>
+        <p><strong>Total Calories (approx):</strong> ${totalCalories.toFixed(2)} kcal</p>
+        <p><small>*Values based on 100g per ingredient*</small></p>
+      </div>
+
+      <h3>Instructions</h3>
+      <p>${meal.strInstructions}</p>
     `;
-  });
 
-  ingredientsList += "</ul>";
-
-  recipeContainer.innerHTML = `
-    <h2>${meal.strMeal}</h2>
-    <img src="${meal.strMealThumb}" width="300">
-
-    <h3>Ingredients</h3>
-    ${ingredientsList}
-
-    <div class="nutrition-box">
-      <h3>🍎 Nutritional Summary</h3>
-      <p><strong>Total Calories (approx):</strong> ${totalCalories.toFixed(2)} kcal</p>
-      <p><small>*Values based on 100g per ingredient*</small></p>
-    </div>
-
-    <h3>Instructions</h3>
-    <p>${meal.strInstructions}</p>
-  `;
+  } catch (error) {
+    console.error("Display error:", error);
+    recipeContainer.innerHTML = "<p>Error loading nutrition data</p>";
+  }
 }
+
 
 
 
