@@ -216,7 +216,27 @@ main h1 {
     width: 180px;
   }
 
+ .hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+  }
+
   .menu {
-    display: none;
+    display: none; /* oculto por defecto en móvil */
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: rgba(0,0,0,0.9);
+    width: 150px;
+    padding: 15px;
+    gap: 10px;
+    border-radius: 8px;
+  }
+
+  .menu.active {
+    display: flex; /* se muestra cuando se hace click en hamburguesa */
   }
 }
