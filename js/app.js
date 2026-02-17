@@ -1,6 +1,8 @@
+
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 const recipeContainer = document.getElementById("recipeContainer");
+
 
 searchBtn.addEventListener("click", () => {
   const recipeName = searchInput.value.trim();
@@ -12,6 +14,7 @@ searchBtn.addEventListener("click", () => {
 
   fetchRecipe(recipeName);
 });
+
 
 function fetchRecipe(name) {
   recipeContainer.innerHTML = "<p>Loading recipe...</p>";
@@ -30,6 +33,7 @@ function fetchRecipe(name) {
       console.error(error);
     });
 }
+
 async function fetchNutrition(ingredient) {
   try {
     const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${ingredient}&search_simple=1&action=process&json=1&page_size=1`;
@@ -56,8 +60,8 @@ async function fetchNutrition(ingredient) {
 async function displayRecipe(meal) {
   try {
 
+   
     let ingredients = [];
-
     for (let i = 1; i <= 20; i++) {
       const ingredient = meal[`strIngredient${i}`];
       const measure = meal[`strMeasure${i}`];
@@ -67,10 +71,8 @@ async function displayRecipe(meal) {
       }
     }
 
-    const nutritionPromises = ingredients.map(item =>
-      fetchNutrition(item.name)
-    );
 
+    const nutritionPromises = ingredients.map(item => fetchNutrition(item.name));
     const nutritionResults = await Promise.all(nutritionPromises);
 
     let ingredientsList = "<ul>";
@@ -91,29 +93,33 @@ async function displayRecipe(meal) {
 
     ingredientsList += "</ul>";
 
+
     recipeContainer.innerHTML = `
-  <div class="recipe-card">
-    <h2>${meal.strMeal}</h2>
-    <button class="fav-btn" onclick="addToFavorites('${meal.idMeal}', '${meal.strMeal}', '${meal.strMealThumb}')">
-   Add to Favorites
-</button>
-    <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-    
-    <h3>Ingredients</h3>
-    ${ingredientsList}
+      <div class="recipe-card">
+        <h2>${meal.strMeal}</h2>
 
-    <button class="fav-btn" onclick="addToShopping(ingredients)">🛒 Add Ingredients to Shopping List</button>
+        <button class="fav-btn" onclick="addToFavorites('${meal.idMeal}', '${meal.strMeal}', '${meal.strMealThumb}')">
+          ❤️ Add to Favorites
+        </button>
 
-    <div class="nutrition-box">
-      <h3>🍎 Nutritional Summary</h3>
-      <p><strong>Total Calories:</strong> ${totalCalories.toFixed(2)} kcal</p>
-    </div>
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
 
-    <h3>Instructions</h3>
-    <p>${meal.strInstructions}</p>
-  </div>
-`;
+        <h3>Ingredients</h3>
+        ${ingredientsList}
 
+        <button class="fav-btn" onclick="addToShopping(${JSON.stringify(ingredients)})">
+          🛒 Add Ingredients to Shopping List
+        </button>
+
+        <div class="nutrition-box">
+          <h3>🍎 Nutritional Summary</h3>
+          <p><strong>Total Calories:</strong> ${totalCalories.toFixed(2)} kcal</p>
+        </div>
+
+        <h3>Instructions</h3>
+        <p>${meal.strInstructions}</p>
+      </div>
+    `;
 
   } catch (error) {
     console.error("Display error:", error);
@@ -121,21 +127,18 @@ async function displayRecipe(meal) {
   }
 }
 
+
 function addToFavorites(id, name, image) {
   let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-  // evitar duplicados
   if (favorites.some(fav => fav.id === id)) {
     alert("Already in favorites");
     return;
   }
 
   favorites.push({ id, name, image });
-
   localStorage.setItem("favorites", JSON.stringify(favorites));
-
-  alert("Added to favorites! ");
-
+  alert("Added to favorites!");
   displayFavorites();
 }
 
@@ -159,32 +162,24 @@ function displayFavorites() {
 
 function removeFavorite(id) {
   let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
   favorites = favorites.filter(fav => fav.id !== id);
-
   localStorage.setItem("favorites", JSON.stringify(favorites));
-
   displayFavorites();
 }
-
-document.addEventListener("DOMContentLoaded", displayFavorites);
 
 
 let shoppingList = JSON.parse(localStorage.getItem("shoppingList")) || [];
 
-// agregar ingredientes al shopping list
 function addToShopping(ingredients) {
   ingredients.forEach(item => {
-    if (!shoppingList.includes(item.name)) {
-      shoppingList.push(item.name);
+    if (!shoppingList.some(i => i.name === item.name)) {
+      shoppingList.push(item);
     }
   });
-
   localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
   displayShoppingList();
 }
 
-// mostrar shopping list
 function displayShoppingList() {
   const container = document.getElementById("shoppingContainer");
 
@@ -193,14 +188,17 @@ function displayShoppingList() {
     return;
   }
 
-  container.innerHTML = "<ul>" + shoppingList.map(item => `<li>${item}</li>`).join("") + "</ul>";
+  container.innerHTML = "<ul>" + shoppingList.map(item => `<li>${item.measure} ${item.name}</li>`).join("") + "</ul>";
 }
 
-// limpiar shopping list
 document.getElementById("clearListBtn").addEventListener("click", () => {
   shoppingList = [];
   localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
   displayShoppingList();
 });
 
-document.addEventListener("DOMContentLoaded", displayShoppingList);
+
+document.addEventListener("DOMContentLoaded", () => {
+  displayFavorites();
+  displayShoppingList();
+});
