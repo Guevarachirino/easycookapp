@@ -285,6 +285,51 @@ main h1 {
   text-align: center;
 }
 
+#shopping-list {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 25px;
+  background: #fffbe6;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+#shopping-list h2 {
+  margin-bottom: 20px;
+  color: #ff6b6b;
+}
+
+#shoppingContainer ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+#shoppingContainer li {
+  padding: 8px;
+  background: #f4f4f4;
+  margin-bottom: 6px;
+  border-radius: 6px;
+}
+
+#clearListBtn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #ff6b6b;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#clearListBtn:hover {
+  background: #ff4757;
+  transform: scale(1.05);
+}
 
 
 @media (max-width: 768px) {

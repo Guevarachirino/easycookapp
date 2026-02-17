@@ -102,6 +102,8 @@ async function displayRecipe(meal) {
     <h3>Ingredients</h3>
     ${ingredientsList}
 
+    <button class="fav-btn" onclick="addToShopping(ingredients)">🛒 Add Ingredients to Shopping List</button>
+
     <div class="nutrition-box">
       <h3>🍎 Nutritional Summary</h3>
       <p><strong>Total Calories:</strong> ${totalCalories.toFixed(2)} kcal</p>
@@ -168,3 +170,37 @@ function removeFavorite(id) {
 document.addEventListener("DOMContentLoaded", displayFavorites);
 
 
+let shoppingList = JSON.parse(localStorage.getItem("shoppingList")) || [];
+
+// agregar ingredientes al shopping list
+function addToShopping(ingredients) {
+  ingredients.forEach(item => {
+    if (!shoppingList.includes(item.name)) {
+      shoppingList.push(item.name);
+    }
+  });
+
+  localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+  displayShoppingList();
+}
+
+// mostrar shopping list
+function displayShoppingList() {
+  const container = document.getElementById("shoppingContainer");
+
+  if (shoppingList.length === 0) {
+    container.innerHTML = "<p>No items yet</p>";
+    return;
+  }
+
+  container.innerHTML = "<ul>" + shoppingList.map(item => `<li>${item}</li>`).join("") + "</ul>";
+}
+
+// limpiar shopping list
+document.getElementById("clearListBtn").addEventListener("click", () => {
+  shoppingList = [];
+  localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+  displayShoppingList();
+});
+
+document.addEventListener("DOMContentLoaded", displayShoppingList);
