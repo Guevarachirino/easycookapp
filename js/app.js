@@ -165,5 +165,6 @@ function removeFavorite(id) {
   displayFavorites();
 }
 
+document.addEventListener("DOMContentLoaded", displayFavorites);
 
 
