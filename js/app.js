@@ -97,7 +97,7 @@ async function displayRecipe(meal) {
     <button class="fav-btn" onclick="addToFavorites('${meal.idMeal}', '${meal.strMeal}', '${meal.strMealThumb}')">
    Add to Favorites
 </button>
-    <img src="${meal.strMealThumb}">
+    <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
     
     <h3>Ingredients</h3>
     ${ingredientsList}
