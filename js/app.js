@@ -23,7 +23,7 @@ function fetchRecipe(name) {
     .then(response => response.json())
     .then(data => {
       if (!data.meals) {
-        recipeContainer.innerHTML = "<p>No recipe found 😢</p>";
+        recipeContainer.innerHTML = "<p>No recipe found</p>";
         return;
       }
       displayRecipe(data.meals[0]);
@@ -97,14 +97,14 @@ async function displayRecipe(meal) {
       <div class="recipe-card">
         <h2>${meal.strMeal}</h2>
 
-        <button class="fav-btn" id="favBtn">❤️ Add to Favorites</button>
+        <button class="fav-btn" id="favBtn"> Add to Favorites</button>
 
         <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
 
         <h3>Ingredients</h3>
         ${ingredientsList}
 
-        <button class="fav-btn" id="shoppingBtn">🛒 Add Ingredients to Shopping List</button>
+        <button class="fav-btn" id="shoppingBtn"> Add Ingredients to Shopping List</button>
 
         <div class="nutrition-box">
           <h3>🍎 Nutritional Summary</h3>
@@ -152,7 +152,7 @@ function displayFavorites() {
   let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
   if (favorites.length === 0) {
-    favoritesContainer.innerHTML = "<p>No favorites yet ❤️</p>";
+    favoritesContainer.innerHTML = "<p>No favorites yet </p>";
     return;
   }
 
